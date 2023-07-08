@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app-deployment
+  labels:
+    app: flask-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+      - name: flask-app-container
+        image: 139675527364.dkr.ecr.us-east-1.amazonaws.com/k8s-assignment:app  # Replace with your image repository and image name
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DBHOST
+          value: 10.244.0.10  # Replace with the hostname of your MySQL service
+        - name: DBUSER
+          value: root
+        - name: DBPWD
+          value: password  # Replace with your MySQL password
+        - name: DATABASE
+          value: employees  # Replace with your MySQL database name
+        - name: APP_COLOR
+          value: lime  # Replace with the desired color
